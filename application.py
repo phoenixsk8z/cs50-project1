@@ -25,16 +25,16 @@ db = scoped_session(sessionmaker(bind=engine))
 
 app.register_blueprint(bp)
 
-@bp.route("/")
+@app.route("/")
 def index():
     return "Project 1: TODO"
 
-@bp.route('/register', methods=('GET', 'POST'))
+@app.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        db = get_db()
+        #db = get_db()
         error = None
 
         if not username:
@@ -57,12 +57,12 @@ def register():
         flash(error)
     return render_template('auth/register.html')
 
-@bp.route('/login', methods=('GET', 'POST'))
+@app.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        db = get_db()
+        #db = get_db()
         error = None
         user = db.execute(
             'SELECT * FROM user WHERE username = ?', (username,)
@@ -89,11 +89,11 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        g.user = get_db().execute(
+        '''g.user = get_db().execute(
             'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
+        ).fetchone()'''
 
-@bp.route('/logout')
+@app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('index'))
