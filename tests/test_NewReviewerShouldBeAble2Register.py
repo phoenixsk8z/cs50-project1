@@ -7,13 +7,13 @@ from project1 import project1
 
 @pytest.fixture
 def client():
-    db_fd, flaskr.app.config['DATABASE'] = tempfile.mkstemp()
-    flaskr.app.config['TESTING'] = True
+    db_fd, project1.app.config['DATABASE'] = tempfile.mkstemp()
+    project1.app.config['TESTING'] = True
 
-    with flaskr.app.test_client() as client:
-        with flaskr.app.app_context():
-            flaskr.init_db()
+    with project1.app.test_client() as client:
+        with project1.app.app_context():
+            project1.init_db()
         yield client
 
     os.close(db_fd)
-    os.unlink(flaskr.app.config['DATABASE'])
+    os.unlink(project1.app.config['DATABASE'])

@@ -27,6 +27,7 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        confirmpassword = request.form['confirmpassword']
         #db = get_db()
         error = None
 
@@ -34,6 +35,10 @@ def register():
             error = 'Username is required.'
         elif not password:
             error = 'Password is required.'
+        elif not confirmpassword:
+            error = 'Please confirm password.'
+        elif password != confirmpassword:
+            error = 'Passwords dont match.'
         elif db.execute(
             'SELECT id FROM user WHERE username = ?', (username,)
         ).fetchone() is not None:
@@ -48,7 +53,8 @@ def register():
             return redirect(url_for('login'))
 
         flash(error)
-    return render_template('auth/register.html')
+
+    return render_template("auth/register.html")
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():

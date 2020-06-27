@@ -22,5 +22,5 @@ def create_app(test_config=None):
     app.config["SESSION_TYPE"] = "filesystem"
     # session(app)
     
-    app.add_url_rule("/", endpoint="index")
+    # app.add_url_rule("/", endpoint="index")
     return app
